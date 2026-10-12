@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ДОЕБАТЬСЯ ДО ХУЙНИ — Gears of War: E-Day</title>
 <link rel="preload" as="image" href="https://store.akamai.steamstatic.com/images/storepagebackground/app/3010850">
-<link rel="preload" as="image" href="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3010850/capsule_616x353.jpg">
 <meta name="description" content="Рандомайзер реальных негативных обзоров Gears of War: E-Day из Steam: сверху смысловой перевод, снизу оригинальный комментарий с пруфом — краши, утечка памяти, вырезанные механики, 5 карт, 4 режима PvP и 70 баксов за бету.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
 <style>
@@ -65,7 +64,7 @@ h1 .torn{
 .sub{margin:12px auto 0;max-width:640px;color:var(--dim);font-size:14px;line-height:1.5}
 .sub b{color:var(--bone)}
 
-/* АРТ: фон и обложка подтянуты с официальной страницы игры в Steam (store/app/3010850) */
+/* АРТ: только фон — подтянут с официальной страницы игры в Steam (storepagebackground, store/app/3010850) */
 .bg{
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background-color:#070809;
@@ -80,24 +79,6 @@ h1 .torn{
   background:
     linear-gradient(180deg,rgba(10,11,13,.12) 0%,rgba(10,11,13,0) 38%,rgba(7,8,9,.9) 100%),
     radial-gradient(115% 85% at 50% 44%,rgba(10,11,13,0) 32%,rgba(10,11,13,.7) 100%);
-}
-.hero{
-  position:relative;margin:20px 0 0;height:clamp(112px,24vw,186px);overflow:hidden;
-  border:1px solid var(--line);
-  background:var(--panel) url("https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3010850/capsule_616x353.jpg") center/cover no-repeat;
-  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
-  box-shadow:0 26px 55px -30px #000,inset 0 1px 0 rgba(255,255,255,.05);
-}
-.hero::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(10,11,13,.6) 0%,rgba(10,11,13,.04) 42%,rgba(10,11,13,.88) 100%),
-    radial-gradient(120% 110% at 50% 0%,rgba(192,32,31,.2),rgba(0,0,0,0) 60%);
-}
-.hero .cap{
-  position:absolute;right:16px;bottom:11px;z-index:1;
-  font:700 9.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;
-  text-transform:uppercase;color:#8b939c;text-shadow:0 1px 2px #000;
 }
 /* чипсы рубрик */
 .tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:20px 0 18px}
@@ -201,7 +182,6 @@ footer a{color:#7d858d}
 }
 @media (max-width:520px){
   .wrap{padding:16px 12px 40px}
-  .hero{height:124px;margin-top:16px}
   .card{padding:24px 18px 20px;min-height:220px}
   .btn{padding:16px 18px;font-size:14px}
 }
@@ -215,8 +195,6 @@ footer a{color:#7d858d}
     <h1>ДОЕБАТЬСЯ ДО ХУЙНИ<span class="torn">Gears of War: E-Day — токсичный ревью-рандомайзер</span></h1>
     <p class="sub">База из <b id="total">0</b> реальных негативных отзывов Steam по <b>техсостоянию</b>, <b>оптимизации</b>, <b>геймплею</b> и <b>контенту</b>. Сверху — смысловой перевод, ниже — пруф: оригинальный комментарий как есть.</p>
   </header>
-
-  <div class="hero" role="img" aria-label="Обложка Gears of War: E-Day и арт со страницы игры в Steam"><span class="cap">обложка · Steam</span></div>
 
   <div class="tags" id="tags" role="group" aria-label="Рубрики претензий"></div>
 
@@ -242,7 +220,7 @@ footer a{color:#7d858d}
 
   <footer>
     Пруфы — <a href="https://steamcommunity.com/app/3010850/negativereviews/" target="_blank" rel="noopener">негативные обзоры Gears of War: E-Day в Steam</a>. Перевод — смысловой, оригиналы приведены как есть и принадлежат их авторам.<br>
-    Арт и обложка — с <a href="https://store.steampowered.com/app/3010850/" target="_blank" rel="noopener">официальной страницы игры в Steam</a>. Один HTML-файл, база обзоров внутри и работает офлайн; без сети просто нет арта. Неофициальная фанатская шутка: права на Gears of War — у The Coalition / Xbox Game Studios.
+    Арт-фон — с <a href="https://store.steampowered.com/app/3010850/" target="_blank" rel="noopener">официальной страницы игры в Steam</a>. Один HTML-файл, база обзоров внутри и работает офлайн; без сети просто нет арта. Неофициальная фанатская шутка: права на Gears of War — у The Coalition / Xbox Game Studios.
   </footer>
 </div>
 

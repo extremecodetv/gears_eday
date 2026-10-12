@@ -146,12 +146,12 @@ ok(!/"x":/.test(html) && !/els\.fact\.innerHTML = current\.x/.test(html), "ст�
 console.log("[8] арт со страницы игры в Steam");
 ok(/class="bg"/.test(html), "слой арт-фона .bg есть");
 ok(/storepagebackground\/app\/3010850/.test(html), "фон — официальный storepagebackground игры");
-ok(/store_item_assets\/steam\/apps\/3010850\/capsule_616x353\.jpg/.test(html), "обложка — capsule_616x353.jpg из Steam");
-ok(/class="hero"[^>]*role="img"[^>]*aria-label="[^"]{10,}"/.test(html), "баннер обложки с role=img и aria-label");
+ok(/rel="preload"[\s\S]{0,200}storepagebackground\/app\/3010850/.test(html), "фон прогревается rel=preload");
 ok(/\.bg\{[^}]*position:fixed[^}]*background-size:cover[^}]*\}/.test(html), "фон зафиксирован и растянут на экран (fixed + cover)");
-ok(/\.hero\{[^}]*height:clamp\([^)]*\)/.test(html), "у обложки адаптивная высота (clamp)");
-ok(/\.hero\{[^}]*background:var\(--panel\)/.test(html), "у обложки есть подложка, если арт не загрузился");
-ok(/rel="preload"[\s\S]{0,260}capsule_616x353\.jpg/.test(html), "арт прогревается rel=preload");
+ok(!/class="hero"/.test(html) && !/\.hero\{/.test(html) && !/\.hero \.cap\{/.test(html), "баннер обложки .hero и его подпись удалены");
+ok(!/capsule_616x353/.test(html), "в разметке не осталось capsule_616x353.jpg");
+ok(!/обложка · Steam/.test(html) && !/Обложка Gears/.test(html), "подпись «обложка · Steam» и aria-label баннера удалены");
+ok(/Арт-фон — с/.test(html) && !/Арт и обложка/.test(html), "в подвале сказано только про арт-фон");
 ok(/store\.steampowered\.com\/app\/3010850\//.test(html), "в подвале ссылка на страницу игры в Steam");
 
 console.log(fail === 0 ? "\nВСЕ ПРОВЕРКИ ПРОЙДЕНЫ" : "\nПРОВАЛЕНО ПРОВЕРОК: " + fail);
