@@ -143,5 +143,16 @@ ok(!/Деплой — GitHub Pages/.test(html), "из подвала убран 
 ok(!/дверь, которую в 2006-м/.test(html), "из шапки убрана шутка про дверь");
 ok(!/"x":/.test(html) && !/els\.fact\.innerHTML = current\.x/.test(html), "старая схема {x} не осталась");
 
+console.log("[8] арт со страницы игры в Steam");
+ok(/class="bg"/.test(html), "слой арт-фона .bg есть");
+ok(/storepagebackground\/app\/3010850/.test(html), "фон — официальный storepagebackground игры");
+ok(/store_item_assets\/steam\/apps\/3010850\/capsule_616x353\.jpg/.test(html), "обложка — capsule_616x353.jpg из Steam");
+ok(/class="hero"[^>]*role="img"[^>]*aria-label="[^"]{10,}"/.test(html), "баннер обложки с role=img и aria-label");
+ok(/\.bg\{[^}]*position:fixed[^}]*background-size:cover[^}]*\}/.test(html), "фон зафиксирован и растянут на экран (fixed + cover)");
+ok(/\.hero\{[^}]*height:clamp\([^)]*\)/.test(html), "у обложки адаптивная высота (clamp)");
+ok(/\.hero\{[^}]*background:var\(--panel\)/.test(html), "у обложки есть подложка, если арт не загрузился");
+ok(/rel="preload"[\s\S]{0,260}capsule_616x353\.jpg/.test(html), "арт прогревается rel=preload");
+ok(/store\.steampowered\.com\/app\/3010850\//.test(html), "в подвале ссылка на страницу игры в Steam");
+
 console.log(fail === 0 ? "\nВСЕ ПРОВЕРКИ ПРОЙДЕНЫ" : "\nПРОВАЛЕНО ПРОВЕРОК: " + fail);
 process.exit(fail === 0 ? 0 : 1);
