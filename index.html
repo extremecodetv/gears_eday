@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ДОЕБАТЬСЯ ДО ХУЙНИ — Gears of War: E-Day</title>
+<meta name="description" content="Токсичный рандомайзер набросов на Gears of War: E-Day по негативным обзорам Steam: краши, утечка памяти, вырезанные механики, 5 карт, 4 режима PvP и 70 баксов за бету.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<style>
+:root{
+  --bg:#0a0b0d;
+  --panel:#13161a;
+  --panel2:#191d22;
+  --steel:#262b31;
+  --line:#343b42;
+  --bone:#e8e4db;
+  --dim:#8b939c;
+  --red:#c0201f;
+  --red2:#ff3b30;
+  --amber:#e8a33d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100dvh;
+  background:
+    radial-gradient(1100px 560px at 50% -12%, #1c2025 0%, rgba(10,11,13,0) 62%),
+    linear-gradient(180deg,#0a0b0d 0%,#070809 100%);
+  color:var(--bone);
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  display:flex;flex-direction:column;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+/* гритти-сканлайны */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.028) 0 1px,rgba(0,0,0,0) 1px 3px);
+  mix-blend-mode:overlay;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:8;
+  background:radial-gradient(120% 90% at 50% 50%,rgba(0,0,0,0) 55%,rgba(0,0,0,.65) 100%);
+}
+.wrap{width:100%;max-width:900px;margin:0 auto;padding:22px 16px 48px;position:relative;z-index:10}
+
+header{text-align:center;padding:10px 0 4px}
+.kicker{
+  font:700 11px/1.4 ui-monospace,Consolas,monospace;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--red2);margin:0 0 8px;
+}
+h1{
+  font-family:"Arial Black",Impact,"Haettenschweiler",sans-serif;
+  font-size:clamp(28px,7.4vw,58px);line-height:.94;margin:0;
+  letter-spacing:-.02em;text-transform:uppercase;
+  text-shadow:0 3px 0 #000,0 0 34px rgba(192,32,31,.4);
+}
+h1 .torn{
+  display:block;color:var(--red);font-size:clamp(13px,3.1vw,22px);letter-spacing:.16em;
+  margin-top:10px;text-shadow:0 2px 0 #000;
+}
+.sub{margin:12px auto 0;max-width:640px;color:var(--dim);font-size:14px;line-height:1.5}
+.sub b{color:var(--bone)}
+
+/* чипсы рубрик */
+.tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:20px 0 18px}
+.chip{
+  appearance:none;border:1px solid var(--line);background:var(--panel);
+  color:var(--dim);font:700 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em;
+  text-transform:uppercase;padding:8px 11px;cursor:pointer;
+  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+  transition:.15s background,.15s color,.15s border-color,.15s transform;
+}
+.chip:hover{color:var(--bone);border-color:#4b545d}
+.chip:active{transform:translateY(1px)}
+.chip[aria-pressed="true"]{background:var(--red);border-color:var(--red2);color:#fff}
+
+/* карточка */
+.card{
+  position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);min-height:250px;display:flex;flex-direction:column;justify-content:center;
+  padding:30px 26px 26px;
+  clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px);
+  box-shadow:0 26px 60px -30px #000,inset 0 1px 0 rgba(255,255,255,.04);
+}
+.card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--red2),var(--red) 55%,#4a0d0d);
+}
+.card .num{
+  position:absolute;top:14px;right:20px;font:700 10px/1 ui-monospace,Consolas,monospace;
+  letter-spacing:.24em;color:#5b636b;text-transform:uppercase;
+}
+.badge{
+  align-self:flex-start;font:700 10px/1 ui-monospace,Consolas,monospace;letter-spacing:.22em;
+  text-transform:uppercase;color:#0c0c0c;background:var(--amber);padding:6px 9px;margin:0 0 16px;
+  clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+}
+.fact{
+  margin:0;font-size:clamp(17px,2.5vw,23px);line-height:1.5;font-weight:500;
+  text-wrap:pretty;letter-spacing:.005em;
+}
+.fact em{font-style:normal;color:var(--red2);font-weight:700}
+.fact .q{color:var(--amber)}
+
+/* кнопки */
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:22px 0 0}
+.btn{
+  appearance:none;cursor:pointer;border:0;color:#fff;font-weight:800;
+  text-transform:uppercase;letter-spacing:.1em;
+  padding:16px 26px;font-size:15px;
+  background:linear-gradient(180deg,var(--red2),var(--red));
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+  box-shadow:0 12px 28px -14px rgba(255,59,48,.85),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:.14s transform,.14s filter;
+}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(2px)}
+.btn.ghost{
+  background:var(--panel);border:1px solid var(--line);color:var(--bone);
+  font-weight:700;font-size:12.5px;padding:15px 18px;box-shadow:none;
+}
+.btn.ghost:hover{border-color:#4b545d;background:var(--panel2)}
+.hint{text-align:center;color:#666e76;font-size:11.5px;margin:14px 0 0;letter-spacing:.04em}
+kbd{
+  font:700 10px/1 ui-monospace,Consolas,monospace;background:var(--steel);
+  border:1px solid var(--line);border-bottom-width:2px;padding:3px 5px;color:var(--bone);border-radius:2px;
+}
+footer{margin-top:34px;text-align:center;color:#5a6169;font-size:11.5px;line-height:1.8}
+footer a{color:#7d858d}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:40;
+  background:var(--panel2);border:1px solid var(--line);color:var(--bone);
+  padding:11px 16px;font:700 12px/1 ui-monospace,Consolas,monospace;letter-spacing:.06em;
+  transition:transform .28s cubic-bezier(.2,1.6,.3,1);
+}
+.toast.on{transform:translate(-50%,0)}
+
+/* пруф-цитата из обзора */
+.proof{
+  margin:18px 0 0;padding:12px 14px;border-left:3px solid var(--red);
+  background:rgba(0,0,0,.3);
+}
+.proof[hidden]{display:none}
+.proof .ph{
+  margin:0 0 7px;font:700 10px/1 ui-monospace,Consolas,monospace;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--red2);
+}
+.proof blockquote{
+  margin:0;font:italic 400 clamp(13.5px,1.7vw,15.5px)/1.55 Georgia,"Times New Roman",serif;color:#c6c1b6;
+}
+.proof .pa{margin:8px 0 0;font:700 10.5px/1.45 ui-monospace,Consolas,monospace;letter-spacing:.06em;color:var(--dim)}
+
+@keyframes slam{
+  0%{opacity:0;transform:translateY(14px) scale(.985);filter:blur(3px)}
+  60%{opacity:1;filter:blur(0)}
+  100%{opacity:1;transform:none}
+}
+.card.anim .fact,.card.anim .badge{animation:slam .22s ease-out both}
+.card.anim .badge{animation-delay:.04s}
+@media (prefers-reduced-motion:reduce){
+  .card.anim .fact,.card.anim .badge{animation:none}
+  html{scroll-behavior:auto}
+}
+@media (max-width:520px){
+  .wrap{padding:16px 12px 40px}
+  .card{padding:24px 18px 20px;min-height:220px}
+  .btn{padding:16px 18px;font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="kicker">Негативные обзоры Steam · app 3010850</p>
+    <h1>ДОЕБАТЬСЯ ДО ХУЙНИ<span class="torn">Gears of War: E-Day — токсичный ревью-рандомайзер</span></h1>
+    <p class="sub">База из <b id="total">0</b> злых набросов по <b>техсостоянию</b>, <b>оптимизации</b>, <b>геймплею</b> и <b>контенту</b>. Каждый наброс идёт с пруфом — цитатой из реального негативного обзора Steam. А вот дверь, которую в 2006-м надо было ждать 30 секунд, всё ещё открывается с большим уважением к игроку, чем релиз E-Day.</p>
+  </header>
+
+  <div class="tags" id="tags" role="group" aria-label="Рубрики претензий"></div>
+
+  <section class="card" id="card" aria-live="polite">
+    <span class="num" id="num">наброс № 0</span>
+    <span class="badge" id="badge">—</span>
+    <p class="fact" id="fact">Жми кнопку ниже — генератор накинет злой наброс по реальному негативному обзору.</p>
+    <div class="proof" id="proof" hidden>
+      <p class="ph">Пруф из Steam</p>
+      <blockquote id="proofQ"></blockquote>
+      <p class="pa" id="proofA"></p>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn" id="roll" type="button">▶ Накинуть дичи</button>
+    <button class="btn ghost" id="proofToggle" type="button" aria-pressed="true">👁 Пруфы: вкл</button>
+    <button class="btn ghost" id="copy" type="button">⧉ Скопировать</button>
+    <button class="btn ghost" id="share" type="button">↗ Поделиться</button>
+  </div>
+
+  <p class="hint"><kbd>Space</kbd> / <kbd>→</kbd> — следующий наброс · <kbd>1</kbd>…<kbd>9</kbd> — рубрика · <kbd>0</kbd> — всё подряд</p>
+
+  <footer>
+    Пруфы — <a href="https://steamcommunity.com/app/3010850/negativereviews/" target="_blank" rel="noopener">негативные обзоры Gears of War: E-Day в Steam</a>. Цитаты принадлежат их авторам и приведены как есть, перевод — наш.<br>
+    Один файл, ноль зависимостей, работает офлайн. Неофициальная фанатская шутка: права на Gears of War — у The Coalition / Xbox Game Studios. Деплой — GitHub Pages, файл <code>index.html</code>.
+  </footer>
+</div>
+
+<div class="toast" id="toast">скопировано</div>
+
+<script>
+/* КАТЕГОРИИ: ключ, подпись, эмодзи */
+const CATS = [
+  ["ТЕХСОСТОЯНИЕ","Краши и оптимизация","🧨"],
+  ["БАГИ","Баги и меню","🐛"],
+  ["СЕТЬ","Сеть и серверы","📡"],
+  ["ГЕЙМПЛЕЙ","Геймплей и механики","🔫"],
+  ["ОРУЖИЕ","Оружие и урон","💥"],
+  ["ОТКРЫТЫЙ МИР","Полу-опенворлд","🗺️"],
+  ["КОНТЕНТ","Контент и гринд","📉"],
+  ["ИИ","ИИ и кооп","🤖"],
+  ["ЦЕНА","Цена, бета, патчи","💸"],
+];
+
+/* БАЗА ФАКТОВ. Формат: {t: ключ рубрики, x: текст} */
+const FACTS = [
+/* БАЗА: русский наброс + пруф (цитата) + автор из негативных обзоров Steam. */
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Стабильность у игры — <em>«как у домика из палочек от мороженого, собранного трёхлеткой»</em>. Это буквальная цитата из обзора, а не наша оценка. Хочешь похвалить — похвали домик.","q":"This is an extremely fun game to play when it works. Sadly it has the stability of a popsicle stick house made by a three year old.","a":"негативный обзор Steam"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Утечка памяти: сессия стабильно умирает примерно на втором часу. Ни смена настроек графики, ни перезапуск не помогают — <em>это не твой комп, это игра такая</em>.","q":"The game freezes randomly on every game session usually at 2 hours in and sometimes even less than that no matter the circumstance or graphics set as the game has a memory leak","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Краши в кампании и Horde — лотерея с потерей прогресса. Детали оружия выдают только при эвакуации: вылет на выходе = <em>играл ты зря</em>.","q":"Multiple crashes a day that lose multiplayer progress because your weapon parts are only delivered on extraction really kills the mood.","a":"негативный обзор Steam"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Вылетел в середине миссии? Прогресс по сложности не сохранится, детали оружия — тоже. Игра как бы говорит: <em>ты не играл</em>.","q":"everytime i did a horde mission or campaign mission i go to play the next mission and i crash mid game, i wouldnt care too much about campaign but none of my solo or co op difficulty was saved and when i crash in horde i loose all my weapon parts i played for","a":"AngelicVaporWolf · 72.8 ч наиграно"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Фризы нон-стоп, и снижение графики вообще ни на что не влияет. Красивая картинка, которая <em>замерзает на месте</em>.","q":"The game is fun but it's been freezing nonstop and it's been making the game a less enjoyable experience. I even tried lowering the graphics some more and it's still been giving me this problem.","a":"l3golegend · 8 ч наиграно"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Полтора часа из семи наигранных — траблшутинг. Игру нельзя пройти даже одну миссию без того, чтобы кого-то из коопа не выбило.","q":"7h in and 2h spent on troubleshooting and the game still crashes like crazy cannot play one full mission without one of us crashing","a":"dzafast · 14.7 ч наиграно (PL)"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Компиляция шейдеров — полчаса. За это время можно успеть открыть ту самую дверь из 2006-го и оформить возврат.","q":"想尝屎的记得订好闹钟两个小时内尽快确定退不退款，虽然着色器就得加载半个小时以上","a":"白昼行江-暗夜膜王 · 6.3 ч наиграно (CN)"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"<em>«Игра работает после основного выхода хуево»</em>. Всё. Это весь отзыв, и он честнее любого пресс-релиза.","q":"Игра работает после основного выхода хуево","a":"mortalk0mbat · 7 ч наиграно"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Краш каждые 10 минут — и в мультиплеере, и в кампании. «Играть в это — чистая каторга», — пишут люди, а не мы.","q":"Co chwile crash, optymalizacja gry nie istnieje, miliony bugów granie w tą grę to istna katorga żeby nie zcrashowało co 10 minut czy to na multiplayer czy fabułce","a":"terrorit2 · 11.8 ч наиграно (PL)"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Nvidia передаёт привет: «сначала апгрейды, оптимизацию потом». PC-версия вышла как платный бенчмарк с сюжетом.","q":"“If you want a partnership make them Upgrade.. Optimize the game later but make them upgrade..” -Nvidia","a":"негативный обзор Steam"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"<em>«Игра явно не очень хорошо оптимизирована под ПК»</em> — экспертное заключение рядом с жалобой на 90–100 fps, которые скачут как попало на открытых картах.","q":"the game obviously is not very well optimized for pc","a":"негативный обзор Steam"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Версия для ПК — мусор, а консоли работают лучше. Не мы придумали: <em>«las porquerías de consola tienen mejor rendimiento». </em>Как так вообще?","q":"Buen juego pero una mierda en pc, las porquerías de consola tienen mejor rendimiento… no puede ser, es de locos","a":"YMIL0 · 116.6 ч наиграно (ES)"},
+  {"t":"ТЕХСОСТОЯНИЕ","x":"Движение «неуклюжее и дебильное», спецэффекты воды отсутствуют, а решения — «дешёвые и тупые». И это отзыв, который начинается с похвалы картинке.","q":"Apart stunning visuals game is full of cheap and dumb solutions. No water effects, no spectacular executions, clunky and idiotic movement","a":"r_e_t_r_o_Czerw · 11 ч наиграно (PL)"},
+  {"t":"БАГИ","x":"В Horde Siege враги плавают сквозь стены и под полом: объектив не засчитать, награды не забрать. Это не хоррор, это баг.","q":"gamebreaking bugs in horde siege like enemies floating through walls and underground not letting you complete objectives and not being able to collect rewards","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"БАГИ","x":"Звук в кампании и в мультиплеере иногда просто глохнет. БАГ ПО ЗВУКУ. В игре за 70 баксов.","q":"se ensordece el sonido en algunos momentos en campaña y multi(bug)","a":"MARKYNATOR · 16.4 ч наиграно (ES)"},
+  {"t":"БАГИ","x":"Взрывы стали «cutres» — то есть убогими по сравнению с прошлыми частями. Даже «бабах» работает через силу.","q":"las explosiónes son bastante más cutres que las entregas anteriores","a":"MARKYNATOR · 16.4 ч наиграно (ES)"},
+  {"t":"БАГИ","x":"Хитбоксы «немного не те», если сравнивать с прошлыми Gears. То есть попал — не попал, как повезёт.","q":"hit boxes seem a bit off compared to other older gears","a":"негативный обзор Steam"},
+  {"t":"БАГИ","x":"После выхода в меню на экран сыпятся флажки, а награды надо прожать через тридцать экранов «enter». Награда потом окажется так себе.","q":"WHy do I get random flags appearing every time I close to menu. Have to mash enter through some 30 screens to get some underwhelming unlocks","a":"негативный обзор Steam"},
+  {"t":"БАГИ","x":"«Куча багов в меню и прочих мелких технических косяков». По отдельности — мелочь, вместе — ржавое ведро.","q":"As well as numerous menu bugs and other minor technical issues.","a":"негативный обзор Steam"},
+  {"t":"БАГИ","x":"Управление на клаве и мыши пришлось переделывать самому: стоковое — неиграбельно в принципе.","q":"Управление через клаву и мышку пришлось переделывать ибо к стоковому не привыкнуть.","a":"Морт · 15.6 ч наиграно"},
+  {"t":"БАГИ","x":"Онлайн не работает, а на форумах советуют переустановить Windows. «Криворукие черти» — цитата.","q":"Онлайн не работает - elias-gutpuncher - пишут, что сейчас помогает только переустановка винды. Криворукие черти","a":"Zaxi · 2.5 ч наиграно"},
+  {"t":"СЕТЬ","x":"400 млн бюджета — а серверы «запустить нормально» смогли только через несколько дней после релиза. Приоритеты железные.","q":"ONE OF THE BIGGEST FRANCHISES WITH 400MIL INTO THIS GAME AND YOU CAN GET YOUR SERVERS RUNNING RIGHT DAYS AFTER LAUNCH.......","a":"Drp13 · 15 ч наиграно"},
+  {"t":"СЕТЬ","x":"<em>«Серверы из картошки»</em>. Это весь отзыв. Зато исчерпывающий.","q":"serwery z ziemniaka","a":"K.R.Z.A.K · 4 ч наиграно (PL)"},
+  {"t":"СЕТЬ","x":"Онлайн требует интернет стабильнее, чем банковский счёт CEO игровой индустрии: каждая попытка коопа — новая ошибка подключения.","q":"Este juego te obliga a tener un internet más estable que la cuenta bancaria de los CEOs de las empresas de videojuegos. Todo el tiempo de juego que tengo ha sido para intentar jugar en cooperativo con un amigo y cada vez nos saltaba un error distinto","a":"Noro · 2.8 ч наиграно (ES)"},
+  {"t":"СЕТЬ","x":"Очереди в игру при онлайне 15к и через неделю после релиза. Спасибо, серверы.","q":"Очереди в игру с 15к онлайна по стиму, спустя неделю после релиза.","a":"Gwintwine · 16 ч наиграно"},
+  {"t":"СЕТЬ","x":"Хост зашёл в меню — вся команда встала на паузу. Играть с рандомами физически больно.","q":"Если хост вышел в меню, то вся команда встаёт на паузу, это жутко бесит если подключаться к кому то кого ты не знаешь.","a":"Морт · 15.6 ч наиграно"},
+  {"t":"СЕТЬ","x":"Список сетевых претензий из мега-обзора: лаг, неконсистентные попадания, ужасный спавн игроков, отсутствие защиты на респавне, отсутствие закрытых лобби. И это только первая строка.","q":"lag, inconsistent hit detection, terrible enemy/player spawning, no spawn protection, no private lobbies","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"СЕТЬ","x":"Твоя перспектива в мультиплеере: тебя разбирают быстрее, чем физически возможно среагировать. Виновата латентность, а не твои руки.","q":"me pongo a jugar multijugador y me hacen papilla antes de lo humanamente reaccionable ya que así se ve mi perspectiva de tanta latencia","a":"YMIL0 · 116.6 ч наиграно (ES)"},
+  {"t":"СЕТЬ","x":"«Кампания — средне, 4v4 — полный провал: всё решает случай». «Худшая игра года» и 300 злотых на ветер.","q":"Kampania średnio i to tak bardzo średnio. 4v4 to jest kompletna porażka wszystko to przypadek co się dzieje w meczu. Najgorsza gra tego roku. Przepalone 300pln.","a":"негативный обзор Steam (PL)"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Что вырезали из Gears 3: мясной щит, метка гранатой, дуэли на пилах, экзекуции почти на каждый ствол, игра за локаста в Horde. Продолжать?","q":"Using a human meat shield? gone. Frag tagging? gone. Chainsaw duels? gone. Almost every gun having a cool execution? gone. Playing as a locust in horde? gone.","a":"LuckyC14 · 29.3 ч наиграно · 👍1к"},
+  {"t":"ГЕЙМПЛЕЙ","x":"<em>«Ремейк Gears 3 победил бы эту игру»</em>. Коротко, по делу, и это отзыв на 29 часов с тысячей лайков.","q":"a GoW 3 remake woulda beat this game.","a":"LuckyC14 · 29.3 ч наиграно · 👍1к"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Дуэлей на пилах больше нет. Главная фетиш-механика серии просто исчезла из игры про Gears of War.","q":"ha perdido muchas mecánicas como la de sujetar al oponente del suelo y usarlo de escudo humano, duelo de motosierra","a":"MARKYNATOR · 16.4 ч наиграно (ES)"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Horde умер: ни офлайн-режима, ни Horde вообще. Новый Horde Siege — это «лайт-кампания»: сделал пару случайных объективов и ушёл.","q":"No offline horde mode, no horde mode at all. The new horde seige is just campaign lite, but you do a random objective or three and then leave.","a":"негативный обзор Steam"},
+  {"t":"ГЕЙМПЛЕЙ","x":"«Выключи мозг и отстреливайся» превратили в гринд-фест. «Десять матчей — и я мёртв внутри».","q":"Horde is a grind-fest. Ten games in and I'm already dead inside.","a":"негативный обзор Steam"},
+  {"t":"ГЕЙМПЛЕЙ","x":"PvP — тот же Gears с гнашером, но без мясного щита, метки гранат и дуэлей на пилах. То есть без всего, за что его любили.","q":"PvP is just Gears with a Gnasher, minus the meat shield, grenade tag, and chainsaw duels.","a":"негативный обзор Steam"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Хочется curbstomp, того самого добивания ногой? Его нет. В трейлере есть, в игре нет. Классика.","q":"I wish they had the curb stomp execution.","a":"негативный обзор Steam"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Vs. до сих пор — потные wall-bounce сражения с гнашером. Ничего не изменилось, зато механик стало меньше.","q":"Versus multiplayer is still just sweat wallbouncing with gnashers.","a":"негативный обзор Steam"},
+  {"t":"ГЕЙМПЛЕЙ","x":"То, что было «святая святых» серии, теперь строчкой в списке отсутствующего: <em>«missing classic Gears mechanics»</em>. Через запятую, без пояснений.","q":"missing classic Gears mechanics","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Чекпоинты — вид искусства: одна смерть откатывает длинную секцию целиком, потому что сейвов там не предусмотрели.","q":"terrible checkpoints making you have to completely redo some areas in the game that are quite long and one death sets you back","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"ГЕЙМПЛЕЙ","x":"Итог от фаната серии с 3.4к лайков: игра — <em>«фундаментальное непонимание»</em> того, за что Gears любили. И техника это не оправдывает.","q":"this game feels like a fundamental misunderstanding of what made Gears special","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"ОРУЖИЕ","x":"Кроме снайперки всё оружие — чесалка: автомат требует 5+ хедшотов, по телу — весь магазин, а дробовик в упор не ваншотит. Играть невозможно и неинтересно.","q":"游戏内容和玩法非常重复且无聊，枪根本就不是枪，除了狙击步枪之外全部都是刮痧，突击步枪要爆头5发以上才能打死敌人，打身体要整个弹夹，霰弹枪贴脸都不能一枪打死敌人，毫无游戏体验","a":"白昼行江-暗夜膜王 · 6.3 ч наиграно (CN)"},
+  {"t":"ОРУЖИЕ","x":"Лоадауты урезали: ни Hammerburst, ни Retro, ни Sawed-off. В ранкеде — ладно, но зачем же в Quickplay?","q":"I very much dislike that you can't use hammerburst,retro, orsawed off in your load out. I understand ranked but quickplay should have flexibility.","a":"B-no · 8.2 ч наиграно"},
+  {"t":"ОРУЖИЕ","x":"Прицел играет за тебя: <em>«excessive reliance on auto-aim»</em>. То есть от скилла почти ничего не зависит.","q":"excessive reliance on auto-aim","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"ОРУЖИЕ","x":"«Boomshot опять попадает» — достижение, вынесенное в отдельную строчку обзора. Вот такой уровень планки у оружия.","q":"Manu Boomshot hits again","a":"негативный обзор Steam"},
+  {"t":"ОРУЖИЕ","x":"Часть стволов просто пропала — например, Boltok. Их не вырезали «по балансу», их там нет вообще.","q":"algunas armas como la boltok","a":"MARKYNATOR · 16.4 ч наиграно (ES)"},
+  {"t":"ОТКРЫТЫЙ МИР","x":"Полу-опенворлд убивает момент-ту-моменту: сцены шикарны, а потом ты 30 минут пилишь рейвера и идёшь по переулкам за банкой томатов.","q":"Semi-open world leads to insanely boring moment to moment gameplay... then you shoot a reaver for 30 minutes, and then you walk through some random alley ways and pick up a can of tomatoes","a":"негативный обзор Steam"},
+  {"t":"ОТКРЫТЫЙ МИР","x":"Коллектиблы — «случайный мусор, разбросанный по углам». Собирать их не хочется даже под угрозой ачивки.","q":"The collectibles are just random nonsense strewn about, don't even feel worth collecting.","a":"негативный обзор Steam"},
+  {"t":"ОТКРЫТЫЙ МИР","x":"Дизайн уровней ленивый: скучные открытые зоны, локации переиспользованы до смерти, а меняется <em>только погода</em>. Ноль усилий.","q":"The level design is lazy. Boring open zones kill the pacing, and the environments are recycled to death. You'll replay the same maps over and over, and the only thing that changes is the weather. Zero effort.","a":"негативный обзор Steam"},
+  {"t":"ОТКРЫТЫЙ МИР","x":"Со временем игра становится «жутко повторяемой и скучной». Это диагноз от человека с почти 12 часами, а не хейт.","q":"Gra z czasem staje się strasznie powtarzalna i nudna","a":"terrorit2 · 11.8 ч наиграно (PL)"},
+  {"t":"ОТКРЫТЫЙ МИР","x":"Китайский отзыв в двух тезисах: «полу-открытости слишком много, уровни повторяются, а мини-боссы — толстые губки для пуль, бить скучно».","q":"半開放玩法真的太多 沒有肉盾系統沒有拚鋸系統 處決變少了 關卡重複度太高 且小BOSS血量真的太厚了打得很無聊","a":"AnDowBoy · 1166 ч наиграно (CN)"},
+  {"t":"КОНТЕНТ","x":"Пять карт. «5 карт — это не предел возможностей», — пишет поляк. Для игры за 70 баксов это даже не предел надежд.","q":"5 map to nie jest szczyt możliwości","a":"terrorit2 · 11.8 ч наиграно (PL)"},
+  {"t":"КОНТЕНТ","x":"Четыре режима PvP и почти никакого выбора персонажей-когов. Зато кастомизация баннеров — пожалуйста.","q":"only 4 game modes for PvP, lack of character choice for cogs","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"КОНТЕНТ","x":"Хочешь выбрать режим в Quickplay? Хрен. Свой лоадаут? Тоже хрен. Зато магазин открыт всегда.","q":"Speaking of quick play, how bout game mode selections.","a":"B-no · 8.2 ч наиграно"},
+  {"t":"КОНТЕНТ","x":"Прогрессии наград как в Gears 3 нет — вместо неё рандомные анлоки, которые никого не впечатляют.","q":"No medal progression unlock to keep me coming back and grinding","a":"негативный обзор Steam"},
+  {"t":"КОНТЕНТ","x":"«Не рекомендую в текущем состоянии: мало контента, полно багов, а 70 баксов — это много». Официальное заключение.","q":"I wouldn't recommend the game in the state it's currently in right now for lack of content and bugs as $70 is alot","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"КОНТЕНТ","x":"Платину придётся брать, «занимаясь хуйнёй всякой», вместо пары прохождений на максимальной сложности. Спасибо, ачивки.","q":"Поглядел что там за ачивки и понял, чтобы взять в этой игре платину, придется долго заниматься xyйнёй всякой, вместо пары прохождений на максимальной сложности.","a":"JACK · 8.3 ч наиграно"},
+  {"t":"КОНТЕНТ","x":"Кампания ок, но возвращаться не тянет: <em>«в ней нет ничего, что держало бы меня после титров»</em>.","q":"the campaign was great and worth playing. But it doesnt have anything that holds me beyond that.","a":"негативный обзор Steam"},
+  {"t":"КОНТЕНТ","x":"«В кампании — извольте по лору, но в Horde и Vs. дайте разнообразия: в итоге все делают одно и то же с одним и тем же оружием». 70 часов в игре, чтобы это понять.","q":"en el modo campaña ciñete al lore si quieres, pero en modo horda o vs...da variedad o opciones de diversion, por que el final todos vamos haciendo exactamente lo mismo , con las mismas armas","a":"numa1980 · 70.3 ч наиграно (ES)"},
+  {"t":"ИИ","x":"Союзный ИИ — ниже плинтуса: не поднимает тебя, даже если ты сам к нему приполз, и ложится всем скопом за секунду без причины.","q":"интеллект союзных юнитов на уровне ниже плинтуса... Они не могут поднять тебя даже если они каким то чудом уцелели и ты сам к ним приполз.","a":"Морт · 15.6 ч наиграно"},
+  {"t":"ИИ","x":"Боты в Horde бесполезны. Всё, диагноз закончился.","q":"bots in horde are useless","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"ИИ","x":"Соло — это боль: напарники-боты либо не поднимают, либо умирают всей пачкой разом. Играй только с живыми и знакомыми.","q":"Играть в этот проект лучше с теми с кем есть связь в реале или с кем играете давно.","a":"Морт · 15.6 ч наиграно"},
+  {"t":"ИИ","x":"Сложность в Horde не привязана к уровню: зелёные новички заходят на хардкор и падают, а тащить их должен ты.","q":"low level players join high difficulty horde modes because of difficulties not being locked to levels","a":"♥Saph♥ · 22.7 ч наиграно"},
+  {"t":"ЦЕНА","x":"«За такую цену игра должна быть безупречной». Вместо этого: 7 часов, из них 2 — траблшутинг и краши. AAA-студии пора держать планку выше.","q":"for this price game should be flawless... we really should be holding these AAA devs to much higher standard because this is unacceptable.","a":"dzafast · 14.7 ч наиграно (PL)"},
+  {"t":"ЦЕНА","x":"«Цена этой игры по сравнению с качеством — это смех сквозь слёзы. И бета была лучше». Поляк не соврёт.","q":"Cena tej gry w porównaniu z jakością to śmiech na sali, beta była lepsza.","a":"terrorit2 · 11.8 ч наиграно (PL)"},
+  {"t":"ЦЕНА","x":"«Состояние, в котором игра вышла, — это шутка. Любого, кто согласился выпустить её недоделанной, надо увольнять». Требование справедливое.","q":"Stan w jakim znajduje się gra to żart. Ktokolwiek kto zgodził się na wypuszczenie tej gry zanim zostanie dokończona powinien zostać zwolniony.","a":"terrorit2 · 11.8 ч наиграно (PL)"},
+  {"t":"ЦЕНА","x":"«Игра в целом неплохая, но должна продаваться дешевле с таким техническим содержимым». И это человек, которому игра понравилась.","q":"Игра в целом не плохая, но должна продаваться дешевле с таким техническим содержимым.","a":"Морт · 15.6 ч наиграно"},
+  {"t":"ЦЕНА","x":"Ранний доступ за отдельные деньги: за предзаказ ты получаешь право первым постоять в очереди и первым словить краш.","q":"I made the mistake of buying Early Access. I'm not making that mistake again.","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"ЦЕНА","x":"Итоговый совет автора мега-обзора: не предзаказывать, не брать ранний доступ, не покупать на релизе и даже не брать на скидке. Кошелёк закрыт.","q":"Don't preorder. Don't buy Early Access. Don't buy it on launch. Don't buy it on sale just because it's cheaper. Keep your wallet closed.","a":"Xero · 42.9 ч наиграно · 👍3.4к"},
+  {"t":"ЦЕНА","x":"Испанец с 70 часами в игре: всё бы ничего, «если не считать платных глупостей». «Chorradas de pago» — так это называется.","q":"aparte de chorradas de pago","a":"numa1980 · 70.3 ч наиграно (ES)"},
+  {"t":"ЦЕНА","x":"«Жду патча. Если будет так же — только возврат». Плюс скриншоты «шедевра» в качестве аргументов для Стима.","q":"В общем, жду патча, если будет так-же, то только возврат(надеюсь скрины этого \"шедевра\" послужат аргументом, хоть и наиграл 3 часа)","a":"JACK · 8.3 ч наиграно"},
+  {"t":"ЦЕНА","x":"Итого за 70 баксов: бета-версия, утечка памяти, четыре режима PvP и пять карт. «Может, подождать скидки?» — самый разумный вопрос в отзывах.","q":"Maybe wait for a sale","a":"LeJinster · 17 ч наиграно"},
+];
+
+/* ================= ЛОГИКА ================= */
+(function () {
+  "use strict";
+
+  var META = {};
+  CATS.forEach(function (c, i) { META[c[0]] = { label: c[1], emoji: c[2], num: i + 1 }; });
+
+  var els = {
+    total: document.getElementById("total"),
+    tags:  document.getElementById("tags"),
+    card:  document.getElementById("card"),
+    badge: document.getElementById("badge"),
+    fact:  document.getElementById("fact"),
+    num:   document.getElementById("num"),
+    roll:  document.getElementById("roll"),
+    copy:  document.getElementById("copy"),
+    share: document.getElementById("share"),
+    proof: document.getElementById("proof"),
+    proofQ: document.getElementById("proofQ"),
+    proofA: document.getElementById("proofA"),
+    proofToggle: document.getElementById("proofToggle"),
+    toast: document.getElementById("toast")
+  };
+
+  var active = null;          /* выбранная рубрика или null = всё */
+  var pool = FACTS.slice();
+  var current = null;
+  var counter = 0;
+  var lastPick = -1;
+  var toastTimer = 0;
+  var canShare = !!(navigator.share);
+  var showProof = true;
+
+  els.total.textContent = FACTS.length;
+  els.share.hidden = !canShare;
+
+  /* ---------- чипсы рубрик ---------- */
+  function makeChip(key, label, emoji, num) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.dataset.key = key || "";
+    b.setAttribute("aria-pressed", "false");
+    b.textContent = emoji + " " + label;
+    b.title = "Рубрика" + (num ? " " + num : "") + " · " + label + (num ? " (клавиша " + num + ")" : " (клавиша 0)");
+    b.addEventListener("click", function () { setCat(key); });
+    return b;
+  }
+
+  (function buildChips() {
+    els.tags.appendChild(makeChip(null, "Всё подряд", "★", 0));
+    CATS.forEach(function (c, i) { els.tags.appendChild(makeChip(c[0], c[1], c[2], i + 1)); });
+  })();
+
+  function setCat(key) {
+    active = key || null;
+    pool = active ? FACTS.filter(function (f) { return f.t === active; }) : FACTS.slice();
+    lastPick = -1;
+    Array.prototype.forEach.call(els.tags.children, function (ch) {
+      ch.setAttribute("aria-pressed", String((ch.dataset.key || null) === active));
+    });
+    if (pool.length) roll();
+  }
+
+  /* ---------- вывод факта ---------- */
+  function roll() {
+    if (!pool.length) return;
+
+    var i = 0;
+    if (pool.length > 1) {
+      do { i = Math.floor(Math.random() * pool.length); } while (i === lastPick);
+    }
+    lastPick = i;
+    current = pool[i];
+    counter++;
+
+    var meta = META[current.t];
+    els.badge.textContent = meta ? meta.emoji + " " + meta.label : current.t;
+    els.fact.innerHTML = current.x;
+    els.proofQ.textContent = current.q || "";
+    els.proofA.textContent = current.a || "";
+    els.proof.hidden = !(showProof && !!current.q);
+    els.num.textContent = "наброс № " + counter;
+
+    els.card.classList.remove("anim");
+    void els.card.offsetWidth;          /* перезапуск анимации */
+    els.card.classList.add("anim");
+  }
+
+  function asText() {
+    if (!current) return "";
+    var meta = META[current.t];
+    var tmp = document.createElement("div");
+    tmp.innerHTML = current.x;
+    var out = "[" + (meta ? meta.label : current.t) + "] " + (tmp.textContent || "").trim();
+    if (current.q) {
+      out += "\nпруф (Steam): " + current.q;
+      if (current.a) out += " — " + current.a;
+    }
+    return out;
+  }
+
+  function toast(msg) {
+    els.toast.textContent = msg;
+    els.toast.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { els.toast.classList.remove("on"); }, 1600);
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      ok ? resolve() : reject(new Error("copy failed"));
+    });
+  }
+
+  /* ---------- события ---------- */
+  els.roll.addEventListener("click", function () { roll(); els.roll.blur(); });
+
+  els.proofToggle.addEventListener("click", function () {
+    showProof = !showProof;
+    els.proofToggle.setAttribute("aria-pressed", String(showProof));
+    els.proofToggle.textContent = showProof ? "👁 Пруфы: вкл" : "👁 Пруфы: выкл";
+    if (current) els.proof.hidden = !(showProof && !!current.q);
+    els.proofToggle.blur();
+  });
+
+  els.copy.addEventListener("click", function () {
+    if (!current) { toast("сначала накинь дичи"); return; }
+    copyText(asText()).then(function () {
+      toast("скопировано: " + asText().slice(0, 28) + "…");
+    }).catch(function () {
+      toast("не вышло — скопируй вручную");
+    });
+  });
+
+  els.share.addEventListener("click", function () {
+    if (!current) { toast("сначала накинь дичи"); return; }
+    navigator.share({ title: "Доебаться до хуйни в Gears", text: asText(), url: location.href })
+      .catch(function () { /* пользователь закрыл шейр */ });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+
+    if (e.key === " " || e.key === "Enter" || e.key === "ArrowRight") {
+      e.preventDefault();
+      roll();
+      return;
+    }
+    if (e.key >= "1" && e.key <= "9") {
+      var cat = CATS[parseInt(e.key, 10) - 1];
+      if (cat) { e.preventDefault(); setCat(cat[0]); }
+      return;
+    }
+    if (e.key === "0") { e.preventDefault(); setCat(null); }
+  });
+
+  /* ---------- старт ---------- */
+  els.num.textContent = "наброс № 0";
+})();
+</script>
+</body>
+</html>
