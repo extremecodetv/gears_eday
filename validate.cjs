@@ -1,4 +1,4 @@
-/* Временный харнесс: прогоняет <script> из index.html в Node с DOM-заглушкой. */
+/* Харнесс: прогоняет <script> из index.html в Node с DOM-заглушкой. Схема данных: {t, r, o, a}. */
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
@@ -57,56 +57,60 @@ const sandbox = {
 sandbox.globalThis = sandbox;
 
 vm.createContext(sandbox);
-/* const/let не становятся свойствами sandbox — вытаскиваем их эпитафией */
+/* const/let не становятся свойствами sandbox — вытаскиваем их эпилогом */
 vm.runInContext(code + "\n;globalThis.__FACTS = FACTS; globalThis.__CATS = CATS;", sandbox);
 const FACTS = sandbox.__FACTS;
 const CATS = sandbox.__CATS;
 
 const fire = (ev) => handlers.keydown.forEach((fn) => fn(Object.assign({ preventDefault() {} }, ev)));
 const numNow = () => parseInt(byId.num.textContent.replace(/\D+/g, ""), 10);
+const byCat = {};
+FACTS.forEach((f) => { byCat[f.t] = (byCat[f.t] || 0) + 1; });
 
 /* ---- проверки ---- */
 console.log("\n[1] база и чипсы");
-ok(FACTS.length >= 60, "набросов в базе: " + FACTS.length);
+ok(FACTS.length >= 140, "отзывов в базе: " + FACTS.length);
 ok(byId.total.textContent === FACTS.length, "счётчик в шапке = " + byId.total.textContent);
 ok(byId.tags.children.length === CATS.length + 1, "чипсов рубрик: " + byId.tags.children.length);
 
 console.log("[2] целостность данных");
 const keys = new Set(CATS.map((c) => c[0]));
-ok(FACTS.filter((f) => !keys.has(f.t)).length === 0, "набросов с неизвестной рубрикой: 0");
-ok(FACTS.filter((f) => !f.x || f.x.trim().length < 20).length === 0, "пустых/коротких набросов: 0");
-const seenText = new Map();
-FACTS.forEach((f) => seenText.set(f.x, (seenText.get(f.x) || 0) + 1));
-ok([...seenText.values()].filter((n) => n > 1).length === 0, "дублей текста: 0");
+ok(FACTS.filter((f) => !keys.has(f.t)).length === 0, "отзывов с неизвестной рубрикой: 0");
+ok(FACTS.filter((f) => !f.r || f.r.trim().length < 20).length === 0, "пустых/коротких переводов: 0");
+ok(new Set(FACTS.map((f) => f.r)).size === FACTS.length, "дублей переводов: 0");
 ok(new Set(FACTS.map((f) => f.t)).size === CATS.length, "задействовано рубрик: " + new Set(FACTS.map((f) => f.t)).size + " / " + CATS.length);
-ok(FACTS.every((f) => !/\uFFFD/.test(f.x)), "нет битой кодировки (U+FFFD)");
+ok(CATS.every((c) => byCat[c[0]] >= 5), "в каждой рубрике есть отзывы: " + JSON.stringify(byCat));
+ok(FACTS.every((f) => !/\uFFFD/.test(f.r + f.o + f.a)), "нет битой кодировки (U+FFFD)");
 
-console.log("[2.1] пруфы");
-ok(FACTS.every((f) => typeof f.q === "string" && f.q.length > 8), "у каждого наброса есть пруф-цитата");
-ok(FACTS.every((f) => typeof f.a === "string" && f.a.length > 2), "у каждого наброса есть атрибуция");
-ok(new Set(FACTS.map((f) => f.q)).size === FACTS.length, "дублей пруф-цитат: 0");
-ok(FACTS.every((f) => !/\u2665\u2665/.test(f.q)), "в пруфах нет стимовской цензуры ♥♥");
-ok(FACTS.every((f) => !/<[a-z]+[^>]*>/i.test(f.q)), "в пруфах нет HTML-тегов");
-ok(FACTS.every((f) => !/\uFFFD/.test(f.q + f.a)), "пруфы без битой кодировки");
+console.log("[2.1] пруфы (оригиналы)");
+ok(FACTS.every((f) => typeof f.o === "string" && f.o.length > 8), "у каждого отзыва есть оригинал-пруф");
+ok(FACTS.every((f) => typeof f.a === "string" && f.a.length > 2), "у каждого отзыва есть атрибуция");
+ok(new Set(FACTS.map((f) => f.o)).size === FACTS.length, "дублей оригиналов: 0");
+ok(FACTS.every((f) => f.r.trim() !== f.o.trim()), "перевод не совпадает с оригиналом");
+ok(FACTS.every((f) => !/[\u0400-\u04FF]/.test(f.o)), "оригиналы без кириллицы (перевод сверху, оригинал снизу)");
+ok(FACTS.every((f) => !/\u2665\u2665/.test(f.o)), "в пруфах нет стимовской цензуры ♥♥");
+ok(FACTS.every((f) => !/<[a-z]+[^>]*>/i.test(f.o)), "в пруфах нет HTML-тегов");
+const langs = new Set(html.match(/\((CN|TC|JP|KO|PL|ES|DE|FR|IT|NL)\)/g) || []);
+ok(langs.size >= 6, "языков в атрибуциях: " + langs.size + " → " + [...langs].join(" "));
 
 console.log("[3] старт");
-ok(byId.num.textContent === "наброс № 0", "до первого клика: " + byId.num.textContent);
+ok(byId.num.textContent === "отзыв № 0", "до первого клика: " + byId.num.textContent);
 
 console.log("[4] ролл");
 fire({ key: " " });
 ok(numNow() === 1, "после пробела: " + byId.num.textContent);
-ok(byId.fact.innerHTML.length > 20, "текст наброса выведен");
+ok(byId.fact.innerHTML.length > 20, "перевод выведен");
 const firstFact = byId.fact.innerHTML;
 ok(byId.badge.textContent.length > 2, "бейдж рубрики: " + byId.badge.textContent);
 ok(byId.card.classList.contains("anim"), "анимация запущена");
-ok(byId.proofQ.textContent.length > 8, "пруф выведен: «" + byId.proofQ.textContent.slice(0, 36) + "…»");
+ok(byId.proofQ.textContent.length > 8, "оригинал выведен: «" + byId.proofQ.textContent.slice(0, 36) + "…»");
 ok(byId.proofA.textContent.length > 2, "атрибуция: " + byId.proofA.textContent);
-ok(byId.proof.hidden === false, "пруф виден по умолчанию");
+ok(byId.proof.hidden === false, "оригинал виден по умолчанию");
 fire({ key: "ArrowRight" });
 fire({ key: "Enter" });
 ok(numNow() === 3, "счётчик растёт: " + byId.num.textContent);
-ok(byId.fact.innerHTML !== firstFact, "наброс не повторился подряд");
-ok(byId.proofQ.textContent === FACTS.find((f) => f.x === byId.fact.innerHTML).q, "пруф соответствует набросу");
+ok(byId.fact.innerHTML !== firstFact, "отзыв не повторился подряд");
+ok(byId.proofQ.textContent === FACTS.find((f) => f.r === byId.fact.innerHTML).o, "оригинал соответствует переводу");
 
 console.log("[5] фильтр по рубрике");
 fire({ key: "2" }); /* ГЕЙМПЛЕЙ */
@@ -125,14 +129,19 @@ const before = numNow();
 const seen = new Set();
 for (let i = 0; i < 500; i++) { fire({ key: " " }); seen.add(byId.fact.innerHTML); }
 ok(numNow() === before + 500, "счётчик вырос ровно на 500: " + byId.num.textContent);
-ok(seen.size >= 65, "разных выпавших набросов за 500 роллов: " + seen.size + " / " + FACTS.length);
+ok(seen.size >= 90, "разных выпавших переводов за 500 роллов: " + seen.size + " / " + FACTS.length);
 
-console.log("[7] разметка и подвал");
+console.log("[7] разметка, тексты и подвал");
 ok(/id="proofQ"/.test(html) && /id="proofA"/.test(html), "разметка пруфа на месте");
-ok(/id="proofToggle"/.test(html), "кнопка переключения пруфов на месте");
+ok(/id="proofToggle"/.test(html), "кнопка переключения оригинала на месте");
 ok(/\.proof\[hidden\]/.test(html), "CSS скрывает пруф (.proof[hidden])");
+ok(/Пруф · оригинал отзыва/.test(html), "подпись пруфа = «Пруф · оригинал отзыва»");
+ok(/Сверху — смысловой перевод/.test(html), "в шапке объяснена схема «перевод + оригинал»");
 ok(/negativereviews/.test(html), "в подвале ссылка на негативные обзоры Steam");
 ok(/app 3010850/.test(html), "в шапке указан app 3010850");
+ok(!/Деплой — GitHub Pages/.test(html), "из подвала убран текст про деплой");
+ok(!/дверь, которую в 2006-м/.test(html), "из шапки убрана шутка про дверь");
+ok(!/"x":/.test(html) && !/els\.fact\.innerHTML = current\.x/.test(html), "старая схема {x} не осталась");
 
 console.log(fail === 0 ? "\nВСЕ ПРОВЕРКИ ПРОЙДЕНЫ" : "\nПРОВАЛЕНО ПРОВЕРОК: " + fail);
 process.exit(fail === 0 ? 0 : 1);
